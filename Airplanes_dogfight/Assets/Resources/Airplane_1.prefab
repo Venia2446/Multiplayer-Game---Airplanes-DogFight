@@ -130,7 +130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c281afba5b5d7142812c7dae3b83889, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AirplaneSpeed: 15
+  AirplaneSpeed: 20
   RotationSpeed: 120
   HeathBar: {fileID: 6066851362471172565}
   bullet: {fileID: 2693841392883863889, guid: 7e2e82dc21b71804897019d9c10caa8e, type: 3}

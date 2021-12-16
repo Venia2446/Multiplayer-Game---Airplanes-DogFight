@@ -11,87 +11,65 @@ public class Airplane1_control: MonoBehaviour
     public float RotationSpeed;
     public TextMeshPro HeathBar;
     public GameObject bullet;
-    private PhotonView photonView;
-    private int healt = 100;
-    private bool startGame = true;
-    private bool player1dead = false;
-    private GameObject clone_bullet;
-    private Transform Bullet_spawn_tranform;
+    private PhotonView _photonView;
+    private int _healt = 100;
+    private bool _startGame = true;
+    private bool _player1Dead = false;
+    private GameObject _cloneBullet;
+    private Transform _bulletSpawnTranform;
 
 
-    public void hitHealhtDownAirplane1() => healt--;
-    public bool Player1Status() => player1dead;
-    public void Player1StatusReset() => player1dead = false;
+    public void HitHealhtDownAirplane1() => _healt--;
+    public bool Player1Status() => _player1Dead;
+    public void Player1StatusReset() => _player1Dead = false;
 
-    private void shoot()
+    private void Shoot()
     {
-        Bullet_spawn_tranform = this.gameObject.transform.GetChild(0);
+        _bulletSpawnTranform = this.gameObject.transform.GetChild(0);
         
 
-        clone_bullet = PhotonNetwork.Instantiate(bullet.name, Bullet_spawn_tranform.position , transform.rotation);
+        _cloneBullet = PhotonNetwork.Instantiate(bullet.name, _bulletSpawnTranform.position , transform.rotation);
 
 
     }
 
     void Start()
     {
-        photonView = gameObject.GetComponent<PhotonView>();
-        if (!photonView.IsMine) HeathBar.color = Color.red;;
+        _photonView = gameObject.GetComponent<PhotonView>();
+        if (!_photonView.IsMine) HeathBar.color = Color.red;;
     }
 
     void Update()
     {
-        if (healt <= 0)
+        if (_healt <= 0)
         {
-            player1dead = true;
-            healt = 100;
+            _player1Dead = true;
+            _healt = 100;
         }
-
-
-
         Player[] plist = PhotonNetwork.PlayerList;
-        if (plist.Length == 2 && startGame)
+        if (plist.Length == 2 && _startGame)
         {
             transform.position = new Vector3(-49f, 0f, -20f);
             transform.rotation = new Quaternion(0, 0, 0, 0);
             
-            startGame = false;
+            _startGame = false;
         }
 
+        HeathBar.SetText(_healt.ToString());
 
-
-        HeathBar.SetText(healt.ToString());
-
-        if (photonView.IsMine)
+        if (_photonView.IsMine)
         {
 
-       
         transform.Translate(Vector3.right* AirplaneSpeed*Time.deltaTime);
+
         if (Input.GetKey("up")) transform.Rotate(0f, 0f, 1f*RotationSpeed * Time.deltaTime);
         if (Input.GetKey("down")) transform.Rotate(0f, 0f, -1f*RotationSpeed * Time.deltaTime);
 
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-
-                shoot();
-                
-            }
-        if (transform.position.x > 53)
-            {
-                transform.position = new Vector3(53f, transform.position.y, transform.position.z);
-            } 
-        if (transform.position.x < -53)
-            {
-                transform.position = new Vector3(-53f, transform.position.y, transform.position.z);
-            }
-            if (transform.position.y > 30)
-            {
-                transform.position = new Vector3(transform.position.x, 30f, transform.position.z);
-            }
-            if (transform.position.y < -30)
-            {
-                transform.position = new Vector3(transform.position.x, -30f, transform.position.z);
-            }
+        if (Input.GetKeyDown(KeyCode.Space)) Shoot();
+        if (transform.position.x > 53)transform.position = new Vector3(53f, transform.position.y, transform.position.z);
+        if (transform.position.x < -53) transform.position = new Vector3(-53f, transform.position.y, transform.position.z);
+        if (transform.position.y > 30) transform.position = new Vector3(transform.position.x, 30f, transform.position.z);
+        if (transform.position.y < -30) transform.position = new Vector3(transform.position.x, -30f, transform.position.z);
         }
     }
 }

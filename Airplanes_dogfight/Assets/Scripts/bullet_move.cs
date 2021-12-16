@@ -23,14 +23,14 @@ public class bullet_move : MonoBehaviour
             if (collision.gameObject.CompareTag("Airplane1"))
             {
                 Debug.Log("HIT1");
-                airplane1_Control.hitHealhtDownAirplane1();
+                airplane1_Control.HitHealhtDownAirplane1();
             }
 
 
             if (collision.gameObject.CompareTag("Airplane2"))
             {
                 Debug.Log("HIT2");
-                airplane2_Control.hitHealhtDownAirplane2();
+                airplane2_Control.HitHealhtDownAirplane2();
             }
             Debug.Log("HIT_test");
             Destroy(gameObject);
